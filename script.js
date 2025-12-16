@@ -32,7 +32,7 @@ if (window.MENU_ANIMATION_MODE === ANIMATION.NONE) {
 
   const originalMenuPosition = parseFloat(
     window.getComputedStyle(document.querySelector('ul.menu')).left
-  ); // parseFloat returnerar alla float värden som är före en annan värdetyp ur en sträng, i det här fallet -300 ur "-300px"
+  );
 
   function toggleMenu() {
     let menuPositionLeft = parseFloat(
@@ -61,7 +61,7 @@ if (window.MENU_ANIMATION_MODE === ANIMATION.NONE) {
         } else {
           clearInterval(menuIntervalAnimationOut);
         }
-      }, 0);
+      });
     }
   }
 } else if (window.MENU_ANIMATION_MODE === ANIMATION.ALTERNATIVE) {
@@ -84,96 +84,39 @@ if (window.MENU_ANIMATION_MODE === ANIMATION.NONE) {
 }
 //--------------------------
 
-createListGroupElement();
+createProgramsContainerElement();
 setChannel('SVT 1');
 
-function createListGroupElement() { // Skapar ul elementet för programmen och lägger in "tidigare program" knappen
-  let listGroupElement = `<ul class="list-group list-group-flush">
-		<li class="list-group-item show-previous hidden">Visa tidigare program</li>
-	</ul>`;
-
-  document.querySelector('#js-schedule').innerHTML = listGroupElement;
+function createProgramsContainerElement() {
+  const unorderedListelement = `<ul class="list-group list-group-flush"></ul>`;
+  document.querySelector('#js-schedule').innerHTML = unorderedListelement;
 }
 
-function setChannel(channelName) {
-  document.querySelector('#js-title').innerText = channelName;
+async function setChannel(channelName) {
+  setPageHeading(channelName);
+  clearProgramsContainerElement();
+  addHiddenPreviousProgramsButton();
 
-  fetchData(`./data/${channelName}.json`).then(setData);
-  let dataFromFetch;
+  const data = await fetchData(`./data/${channelName}.json`);
+  const mappedPrograms = mapPrograms(data);
+  const sortedPrograms = sortProgramsByAscendingDate(mappedPrograms);
+  const programsAsHTML = saveProgramsInHTMLForm(sortedPrograms);
 
-  function setData(data) {
-    dataFromFetch = data;
-  }
-
-  console.log(dataFromFetch);
-
-  // Varje objekt från datat läggs in i variabeln med bara nyckelvärdeparen som ska användas i koden och sedan visas up
-  const programs = dataFromFetch.map((program) => ({
-    start: new Date(program.start),
-    name: program.name,
-  }));
-
-  // Sorterar programmen stigande efter datum
-  programs.sort((firstProgram, secondProgram) => {
-    return firstProgram.start - secondProgram.start;
-  });
-
-  // Funktion för programstarts tiden, så timmarna och minuterna visar tvåsiffriga tal även om de är under 10
-  function formatTime(hours, minutes) {
-    if (hours < 10) hours = '0' + hours;
-    if (minutes < 10) minutes = '0' + minutes;
-    return `${hours}:${minutes}`;
-  }
-
-  let listItems = ``;
-
-  //------ Går igenom alla program objekt och sparar dem i HTML format i övre variabeln
-  programs.forEach((program) => {
-    /* Elementen läggs till med en klass som gömmer dem om programstartens datum och tid är
-			mindre än (alltså före) ett simulerat datum */
-    if (program.start < new Date('2021-02-10T19:00:00+01:00')) {
-      listItems += `<li class="list-group-item hidden">
-					<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
-					<div>${program.name}</div>
-				</li>`;
-    } else {
-      listItems += `<li class="list-group-item">
-				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
-				<div>${program.name}</div>
-			</li>`;
-    }
-  });
-  //------
-
-  // Sparade program objekten i HTML format läggs in i ett existerande HTML element via variabeln
-  document.querySelector('.list-group').innerHTML += listItems;
-
-  // Gömmer loading gif när datan både laddats in och visas upp på sidan
-  document.querySelector('#js-loading').classList.add('hidden');
-
-  //------ Knappen "Visa tidigare program" visas och fungerar bara om minst ett av programmen är gömda, alltså redan sända
-  let firstProgram = document.querySelectorAll('.list-group-item')[1];
-
-  if (firstProgram.classList.contains('hidden')) {
-    document.querySelector('.show-previous').classList.remove('hidden');
-  }
-
-  document.querySelector('.show-previous').addEventListener('click', showPrevious);
-  //------
-
-  function showPrevious() {
-    let listItems = document.querySelectorAll('.list-group-item');
-
-    listItems.forEach((listItem) => {
-      listItem.classList.remove('hidden');
-    });
-
-    document.querySelector('.show-previous').classList.add('hidden');
-  }
+  addProgramsToHTML(programsAsHTML);
 }
 
-async function fetchData(url) { // Visar loading gif innan någon data laddats in
-  document.querySelector('#js-loading').classList.remove('hidden');
+function clearProgramsContainerElement() {
+  document.querySelector('.list-group').innerHTML = '';
+}
+
+function addHiddenPreviousProgramsButton() {
+  const previousProgramsButton = `<li class="list-group-item show-previous hidden">Visa tidigare program</li>`;
+
+  document.querySelector('.list-group').innerHTML = previousProgramsButton;
+}
+
+async function fetchData(url) {
+  showLoadingGif();
 
   try {
     const response = await fetch(url);
@@ -183,4 +126,92 @@ async function fetchData(url) { // Visar loading gif innan någon data laddats i
   } catch (error) {
     console.error('Fetch failed:', error);
   }
+}
+
+function saveProgramsInHTMLForm(programs) {
+  let programsInHTMLForm = ``;
+
+  programs.forEach((program) => {
+    if (program.start < new Date('2021-02-10T19:00:00+01:00')) {// Simulerat datum
+      programsInHTMLForm += `<li class="list-group-item hidden">
+					<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
+					<div>${program.name}</div>
+				</li>`;
+    } else {
+      programsInHTMLForm += `<li class="list-group-item">
+				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
+				<div>${program.name}</div>
+			</li>`;
+    }
+  });
+	
+  return programsInHTMLForm;
+}
+
+function addProgramsToHTML(programsAsHTML) {
+  const programsContainerElement = document.querySelector('.list-group');
+
+  programsContainerElement.innerHTML += programsAsHTML;
+  hideLoadingGif();
+  checkShowPreviousProgramsButton();
+}
+
+function checkShowPreviousProgramsButton() {
+  const firstProgram = document.querySelectorAll('.list-group-item')[1];
+
+  if (firstProgram.classList.contains('hidden')) {
+    showPreviousProgramsButton();
+  }
+}
+
+function showPreviousPrograms() {
+  const allProgramElements = document.querySelectorAll('.list-group-item');
+
+  allProgramElements.forEach((programElement) => {
+    programElement.classList.remove('hidden');
+  });
+
+  hidePreviousProgramsButton();
+}
+
+function setPageHeading(channelName) {
+  document.querySelector('#js-title').innerText = channelName;
+}
+
+function mapPrograms(programs) {
+  return programs.map((program) => ({
+    start: new Date(program.start),
+    name: program.name,
+  }));
+}
+
+function sortProgramsByAscendingDate(programs) {
+  return programs.sort((firstProgram, secondProgram) => {
+    return firstProgram.start - secondProgram.start;
+  });
+}
+
+function formatTime(hours, minutes) {
+  if (hours < 10) hours = '0' + hours;
+  if (minutes < 10) minutes = '0' + minutes;
+  return `${hours}:${minutes}`;
+}
+
+function showPreviousProgramsButton() {
+  const previousProgramsButton = document.querySelector('.show-previous');
+
+  previousProgramsButton.classList.remove('hidden');
+  previousProgramsButton.addEventListener('click', showPreviousPrograms);
+}
+
+function hidePreviousProgramsButton() {
+  document.querySelector('.show-previous').classList.add('hidden');
+}
+
+function showLoadingGif() {
+  document.querySelector('#js-loading').classList.remove('hidden');
+}
+
+function hideLoadingGif() {
+  document.querySelector('#js-loading').classList.add('hidden');
 }
