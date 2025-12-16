@@ -84,6 +84,12 @@ if (window.MENU_ANIMATION_MODE === ANIMATION.NONE) {
 }
 //--------------------------
 
+import { createApp } from "https://unpkg.com/vue@3.5.22/dist/vue.esm-browser.js";
+
+const theApp = createApp({})
+
+theApp.mount(".menu");
+
 createProgramsContainerElement();
 setChannel('SVT 1');
 
