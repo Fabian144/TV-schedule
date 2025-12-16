@@ -33,19 +33,19 @@
 			<div class="row">
 				<div class="col-sm-6 offset-sm-2">
 					<!-- I DENNA H1 SKA VALD TV-KANALS NAMN SKRIVAS UT -->
-					<h1 id="js-title"></h1>
+					<h1 id="js-title">{{ channelName }}</h1>
 					<div id="js-schedule">
 						<!-- EXEMPEL-HTML, SOM SKA LÄGGAS IN MED JAVASCRIPT UTIFRÅN JSON-DATA -->
 						<ul class="list-group list-group-flush">
 							<li class="list-group-item show-previous">Visa tidigare program</li>
-							<li class="list-group-item">
-								<strong></strong>
-								<div></div>
+							<li v-for="program in sortedPrograms" class="list-group-item">
+								<strong>{{ program.start }}</strong>
+								<div>{{ program.name }}</div>
 							</li>
 						</ul>
 					</div>
 					<!-- DENNA VISAS BARA NÄR INGEN DATA LADDATS-->
-					<img src="loading.gif" id="js-loading" class="loading-spinner hidden" alt="Page loader" />
+					<img v-if="!programs" src="loading.gif" id="js-loading" class="loading-spinner hidden" alt="Page loader" />
 				</div>
 			</div>
 		</div>

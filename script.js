@@ -1,154 +1,181 @@
-import { createApp } from "https://unpkg.com/vue@3.5.22/dist/vue.esm-browser.js";
+import { createApp } from 'https://unpkg.com/vue@3.5.22/dist/vue.esm-browser.js';
 
 const theApp = createApp({
-	data() {
-		return {
-		}
-	},
+  data() {
+    return {
+      channelName: '',
+      programs: [],
+    };
+  },
 
-	computed: {
+  computed: {
+    mappedPrograms() {
+      return this.programs.map((program) => ({
+        ...program,
+        start: new Date(program.start),
+      }));
+    },
 
-	},
+    sortedPrograms() {
+      return this.mappedPrograms.sort((firstProgram, secondProgram) => {
+        return firstProgram.start - secondProgram.start;
+      });
+    },
+  },
 
-	methods: {
+  methods: {
+    setChannel(channelName) {
+      this.channelName = channelName;
+      this.fetchPrograms();
+    },
 
-	},
+    async fetchPrograms() {
+      this.programs = [];
+      try {
+        const response = await fetch(`./data/${this.channelName}.json`);
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
+        this.programs = await response.json();
+      } catch (error) {
+        console.error('Fetch failed:', error);
+      }
+    },
+  },
 
-	mounted() {
+  mounted() {
+    this.setChannel('SVT 1');
+  },
+});
 
-	}
-})
+theApp.mount('#app');
 
-theApp.mount("#app");
+// createProgramsContainerElement();
+// setChannel('SVT 1');
 
-createProgramsContainerElement();
-setChannel('SVT 1');
+// function createProgramsContainerElement() {
+//   const unorderedListelement = `<ul class="list-group list-group-flush"></ul>`;
+//   document.querySelector('#js-schedule').innerHTML = unorderedListelement;
+// }
 
-function createProgramsContainerElement() {
-  const unorderedListelement = `<ul class="list-group list-group-flush"></ul>`;
-  document.querySelector('#js-schedule').innerHTML = unorderedListelement;
-}
+// async function setChannel(channelName) {
+//   setPageHeading(channelName);
+//   clearProgramsContainerElement();
+//   addHiddenPreviousProgramsButton();
 
-async function setChannel(channelName) {
-  setPageHeading(channelName);
-  clearProgramsContainerElement();
-  addHiddenPreviousProgramsButton();
+//   const data = await fetchData(`./data/${channelName}.json`);
+//   const mappedPrograms = mapPrograms(data);
+//   const sortedPrograms = sortProgramsByAscendingDate(mappedPrograms);
+//   const programsAsHTML = saveProgramsInHTMLForm(sortedPrograms);
 
-  const data = await fetchData(`./data/${channelName}.json`);
-  const mappedPrograms = mapPrograms(data);
-  const sortedPrograms = sortProgramsByAscendingDate(mappedPrograms);
-  const programsAsHTML = saveProgramsInHTMLForm(sortedPrograms);
+//   addProgramsToHTML(programsAsHTML);
+// }
 
-  addProgramsToHTML(programsAsHTML);
-}
+// function clearProgramsContainerElement() {
+//   document.querySelector('.list-group').innerHTML = '';
+// }
 
-function clearProgramsContainerElement() {
-  document.querySelector('.list-group').innerHTML = '';
-}
+// function addHiddenPreviousProgramsButton() {
+//   const previousProgramsButton = `<li class="list-group-item show-previous hidden">Visa tidigare program</li>`;
 
-function addHiddenPreviousProgramsButton() {
-  const previousProgramsButton = `<li class="list-group-item show-previous hidden">Visa tidigare program</li>`;
+//   document.querySelector('.list-group').innerHTML = previousProgramsButton;
+// }
 
-  document.querySelector('.list-group').innerHTML = previousProgramsButton;
-}
+// async function fetchData(url) {
+//   showLoadingGif();
 
-async function fetchData(url) {
-  showLoadingGif();
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) throw new Error(`Status: ${response.status}`);
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error('Fetch failed:', error);
+//   }
+// }
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Status: ${response.status}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Fetch failed:', error);
-  }
-}
+// function saveProgramsInHTMLForm(programs) {
+//   let programsInHTMLForm = ``;
 
-function saveProgramsInHTMLForm(programs) {
-  let programsInHTMLForm = ``;
+//   programs.forEach((program) => {
+//     if (program.start < new Date('2021-02-10T19:00:00+01:00')) { // Simulerat datum
+//       programsInHTMLForm += `<li class="list-group-item hidden">
+// 					<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
+// 					<div>${program.name}</div>
+// 				</li>`;
+//     } else {
+//       programsInHTMLForm += `<li class="list-group-item">
+// 				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
+// 				<div>${program.name}</div>
+// 			</li>`;
+//     }
+//   });
 
-  programs.forEach((program) => {
-    if (program.start < new Date('2021-02-10T19:00:00+01:00')) { // Simulerat datum
-      programsInHTMLForm += `<li class="list-group-item hidden">
-					<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
-					<div>${program.name}</div>
-				</li>`;
-    } else {
-      programsInHTMLForm += `<li class="list-group-item">
-				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
-				<div>${program.name}</div>
-			</li>`;
-    }
-  });
+//   return programsInHTMLForm;
+// }
 
-  return programsInHTMLForm;
-}
+// function addProgramsToHTML(programsAsHTML) {
+//   const programsContainerElement = document.querySelector('.list-group');
 
-function addProgramsToHTML(programsAsHTML) {
-  const programsContainerElement = document.querySelector('.list-group');
+//   programsContainerElement.innerHTML += programsAsHTML;
+//   hideLoadingGif();
+//   checkShowPreviousProgramsButton();
+// }
 
-  programsContainerElement.innerHTML += programsAsHTML;
-  hideLoadingGif();
-  checkShowPreviousProgramsButton();
-}
+// function checkShowPreviousProgramsButton() {
+//   const firstProgram = document.querySelectorAll('.list-group-item')[1];
 
-function checkShowPreviousProgramsButton() {
-  const firstProgram = document.querySelectorAll('.list-group-item')[1];
+//   if (firstProgram.classList.contains('hidden')) {
+//     showPreviousProgramsButton();
+//   }
+// }
 
-  if (firstProgram.classList.contains('hidden')) {
-    showPreviousProgramsButton();
-  }
-}
+// function showPreviousPrograms() {
+//   const allProgramElements = document.querySelectorAll('.list-group-item');
 
-function showPreviousPrograms() {
-  const allProgramElements = document.querySelectorAll('.list-group-item');
+//   allProgramElements.forEach((programElement) => {
+//     programElement.classList.remove('hidden');
+//   });
 
-  allProgramElements.forEach((programElement) => {
-    programElement.classList.remove('hidden');
-  });
+//   hidePreviousProgramsButton();
+// }
 
-  hidePreviousProgramsButton();
-}
+// function setPageHeading(channelName) {
+//   document.querySelector('#js-title').innerText = channelName;
+// }
 
-function setPageHeading(channelName) {
-  document.querySelector('#js-title').innerText = channelName;
-}
+// function mapPrograms(programs) {
+//   return programs.map((program) => ({
+//     ...program,
+//     start: new Date(program.start),
+//   }));
+// }
 
-function mapPrograms(programs) {
-  return programs.map((program) => ({
-    ...program,
-    start: new Date(program.start),
-  }));
-}
+// function sortProgramsByAscendingDate(programs) {
+//   return programs.sort((firstProgram, secondProgram) => {
+//     return firstProgram.start - secondProgram.start;
+//   });
+// }
 
-function sortProgramsByAscendingDate(programs) {
-  return programs.sort((firstProgram, secondProgram) => {
-    return firstProgram.start - secondProgram.start;
-  });
-}
+// function formatTime(hours, minutes) {
+//   if (hours < 10) hours = '0' + hours;
+//   if (minutes < 10) minutes = '0' + minutes;
+//   return `${hours}:${minutes}`;
+// }
 
-function formatTime(hours, minutes) {
-  if (hours < 10) hours = '0' + hours;
-  if (minutes < 10) minutes = '0' + minutes;
-  return `${hours}:${minutes}`;
-}
+// function showPreviousProgramsButton() {
+//   const previousProgramsButton = document.querySelector('.show-previous');
 
-function showPreviousProgramsButton() {
-  const previousProgramsButton = document.querySelector('.show-previous');
+//   previousProgramsButton.classList.remove('hidden');
+//   previousProgramsButton.addEventListener('click', showPreviousPrograms);
+// }
 
-  previousProgramsButton.classList.remove('hidden');
-  previousProgramsButton.addEventListener('click', showPreviousPrograms);
-}
+// function hidePreviousProgramsButton() {
+//   document.querySelector('.show-previous').classList.add('hidden');
+// }
 
-function hidePreviousProgramsButton() {
-  document.querySelector('.show-previous').classList.add('hidden');
-}
+// function showLoadingGif() {
+//   document.querySelector('#js-loading').classList.remove('hidden');
+// }
 
-function showLoadingGif() {
-  document.querySelector('#js-loading').classList.remove('hidden');
-}
-
-function hideLoadingGif() {
-  document.querySelector('#js-loading').classList.add('hidden');
-}
+// function hideLoadingGif() {
+//   document.querySelector('#js-loading').classList.add('hidden');
+// }
