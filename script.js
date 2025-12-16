@@ -5,6 +5,7 @@ const theApp = createApp({
     return {
       channelName: '',
       programs: [],
+      loading: false,
     };
   },
 
@@ -30,11 +31,12 @@ const theApp = createApp({
     },
 
     async fetchPrograms() {
-      this.programs = [];
+      this.loading = true;
       try {
         const response = await fetch(`./data/${this.channelName}.json`);
         if (!response.ok) throw new Error(`Status: ${response.status}`);
         this.programs = await response.json();
+        this.loading = false;
       } catch (error) {
         console.error('Fetch failed:', error);
       }
