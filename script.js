@@ -132,7 +132,7 @@ function saveProgramsInHTMLForm(programs) {
   let programsInHTMLForm = ``;
 
   programs.forEach((program) => {
-    if (program.start < new Date('2021-02-10T19:00:00+01:00')) {// Simulerat datum
+    if (program.start < new Date('2021-02-10T19:00:00+01:00')) { // Simulerat datum
       programsInHTMLForm += `<li class="list-group-item hidden">
 					<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
 					<div>${program.name}</div>
@@ -144,7 +144,7 @@ function saveProgramsInHTMLForm(programs) {
 			</li>`;
     }
   });
-	
+
   return programsInHTMLForm;
 }
 
@@ -180,8 +180,8 @@ function setPageHeading(channelName) {
 
 function mapPrograms(programs) {
   return programs.map((program) => ({
+    ...program,
     start: new Date(program.start),
-    name: program.name,
   }));
 }
 
