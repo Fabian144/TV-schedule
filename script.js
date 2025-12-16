@@ -4,6 +4,18 @@ const theApp = createApp({
 	data() {
 		return {
 		}
+	},
+
+	computed: {
+
+	},
+
+	methods: {
+
+	},
+
+	mounted() {
+
 	}
 })
 
