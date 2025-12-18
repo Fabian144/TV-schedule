@@ -35,8 +35,9 @@
 					<!-- I DENNA H1 SKA VALD TV-KANALS NAMN SKRIVAS UT -->
 					<h1 id="js-title">{{ channelName }}</h1>
 					<div id="js-schedule">
-						<!-- EXEMPEL-HTML, SOM SKA LÄGGAS IN MED JAVASCRIPT UTIFRÅN JSON-DATA -->
+						<!-- DENNA VISAS BARA NÄR INGEN DATA LADDATS-->
 						<img v-if="loading" src="loading.gif" id="js-loading" class="loading-spinner" alt="Page loader" />
+						<!-- EXEMPEL-HTML, SOM SKA LÄGGAS IN MED JAVASCRIPT UTIFRÅN JSON-DATA -->
 						<ul v-else class="list-group list-group-flush">
 							<li class="list-group-item show-previous">Visa tidigare program</li>
 							<li v-for="program in sortedPrograms" class="list-group-item">
@@ -45,7 +46,6 @@
 							</li>
 						</ul>
 					</div>
-					<!-- DENNA VISAS BARA NÄR INGEN DATA LADDATS-->
 				</div>
 			</div>
 		</div>
