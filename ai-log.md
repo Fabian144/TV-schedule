@@ -20,6 +20,8 @@ Då undrade jag hur man gör om man vill ha med alla nyckelvärdepar, i koden v�
 
 ### Vad jag använde GitHub Copilot till
 
-Loading GIFen ville inte fungera så jag frågade Copilot varför. Problemet var att jag använde v-if="!programs" men att en tom array i JavaScript ändå är truthy, samt att jag hade glömt att ta bort "hidden" klassen från GIFen. Förslaget var att lägga till en loading boolean property och visa GIFen utifrån det, vilket jag gjorde och då löste det sig.
+Loading GIFen ville inte fungera så jag frågade Copilot varför. Problemet var att jag använde v-if="!programs" men att en tom array i JavaScript ändå är truthy, samt att jag hade glömt att ta bort "hidden" klassen från GIFen. Förslaget var att lägga till en loading boolean property och visa GIFen utifrån det.
 
 ### Kritisk värdering av ett av förslagen
+
+Förslaget med att lägga till en loading boolean property för att visa laddnings GIFen var bra då det gör koden både mer läsbar och gör så att man enkelt kan visa upp GIFen när det behövs. Jag ville att den syns medans programmen fetchas och försvinner bara när fetchen lyckats. Egentligen hade jag kunnat uppnå samma sak med v-if="programs.length === 0" istället för att lägga till en helt ny property, men då hade man behövt tömma arrayen innan varje fetch körs vilket hade varit onödigt och inte lika läsbart som att skriva this.loading = true.
