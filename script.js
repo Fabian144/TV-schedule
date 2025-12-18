@@ -11,25 +11,25 @@ const theApp = createApp({
   },
 
   computed: {
-    mappedPrograms() {
-      return this.programs.map((program) => ({
-        ...program,
-        start: new Date(program.start),
-      }));
-    },
-
     allPrograms() {
-      return this.mappedPrograms.sort((firstProgram, secondProgram) => {
-        return firstProgram.start - secondProgram.start;
-      });
-    },
-
-    unairedPrograms() {
-      return this.allPrograms.filter((program) => this.checkProgramNotAired(program));
+      return this.programs
+        .map((program) => ({
+          ...program,
+          start: new Date(program.start),
+        }))
+        .sort((firstProgram, secondProgram) => {
+          return firstProgram.start - secondProgram.start;
+        });
     },
 
     programsToDisplay() {
-      return this.displayingAllPrograms ? this.allPrograms : this.unairedPrograms;
+      return this.displayingAllPrograms
+        ? this.allPrograms
+        : this.allPrograms.filter((program) => this.checkProgramNotAired(program.start));
+    },
+
+    anyAiredProgram() {
+      return this.allPrograms.some((program) => this.checkProgramAired(program.start));
     },
   },
 
@@ -58,8 +58,12 @@ const theApp = createApp({
       return `${hours}:${minutes}`;
     },
 
-    checkProgramNotAired(program) {
-      return program.start > new Date('2021-02-10T19:00:00+01:00');
+    checkProgramNotAired(startTime) {
+      return startTime >= new Date('2021-02-10T19:00:00+01:00');
+    },
+
+    checkProgramAired(startTime) {
+      return startTime < new Date('2021-02-10T19:00:00+01:00');
     },
   },
 
@@ -85,8 +89,8 @@ theApp.mount('#app');
 
 //   const data = await fetchData(`./data/${channelName}.json`);
 //   const mappedPrograms = mapPrograms(data);
-//   const sortedPrograms = sortProgramsByAscendingDate(mappedPrograms);
-//   const programsAsHTML = saveProgramsInHTMLForm(sortedPrograms);
+//   const allPrograms = sortProgramsByAscendingDate(mappedPrograms);
+//   const programsAsHTML = saveProgramsInHTMLForm(allPrograms);
 
 //   addProgramsToHTML(programsAsHTML);
 // }
