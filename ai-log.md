@@ -20,7 +20,9 @@ Då undrade jag hur man gör om man vill ha med alla nyckelvärdepar, i koden v�
 
 ### Vad jag använde GitHub Copilot till
 
-Loading GIFen ville inte fungera så jag frågade Copilot varför. Problemet var att jag använde v-if="!programs" men att en tom array i JavaScript ändå är truthy, samt att jag hade glömt att ta bort "hidden" klassen från GIFen. Förslaget var att lägga till en loading boolean property och visa GIFen utifrån det, vilket jag gjorde då jag tyckte det var en bra idé och för att det fungerade som jag ville.
+Loading GIFen ville inte fungera så jag frågade Copilot hur jag kunde lösa det. Problemet var att jag använde v-if="!programs" men att en tom array i JavaScript ändå är truthy, samt att jag hade glömt att ta bort "hidden" klassen från GIFen. Förslaget var att lägga till en loading boolean property och visa GIFen utifrån det, vilket jag gjorde då jag tyckte det var en bra idé och för att det fungerade som jag ville.
+
+Att formatera starttiden för programmen så att bara timmarna och minuterna visas, vilket inte var svårare än att använda formatTime funktionen som jag gjorde i del 1 fast direkt i HTML den här gången.
 
 ### Kritisk värdering av ett av förslagen
 

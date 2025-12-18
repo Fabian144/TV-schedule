@@ -41,7 +41,7 @@
 						<ul v-else class="list-group list-group-flush">
 							<li class="list-group-item show-previous">Visa tidigare program</li>
 							<li v-for="program in sortedPrograms" class="list-group-item">
-								<strong>{{ program.start }}</strong>
+								<strong>{{ formatTime(program.start.getHours(), program.start.getMinutes()) }}</strong>
 								<div>{{ program.name }}</div>
 							</li>
 						</ul>
