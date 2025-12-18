@@ -39,8 +39,8 @@
 						<img v-if="loading" src="loading.gif" id="js-loading" class="loading-spinner" alt="Page loader" />
 						<!-- EXEMPEL-HTML, SOM SKA LÄGGAS IN MED JAVASCRIPT UTIFRÅN JSON-DATA -->
 						<ul v-else class="list-group list-group-flush">
-							<li class="list-group-item show-previous">Visa tidigare program</li>
-							<li v-for="program in sortedPrograms" class="list-group-item">
+							<li v-if="!displayingAllPrograms" @click="displayingAllPrograms = true" class="list-group-item show-previous">Visa tidigare program</li>
+							<li v-for="program in programsToDisplay" class="list-group-item">
 								<strong>{{ formatTime(program.start.getHours(), program.start.getMinutes()) }}</strong>
 								<div>{{ program.name }}</div>
 							</li>

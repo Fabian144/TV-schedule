@@ -6,6 +6,7 @@ const theApp = createApp({
       channelName: '',
       programs: [],
       loading: false,
+      displayingAllPrograms: false,
     };
   },
 
@@ -17,16 +18,25 @@ const theApp = createApp({
       }));
     },
 
-    sortedPrograms() {
+    allPrograms() {
       return this.mappedPrograms.sort((firstProgram, secondProgram) => {
         return firstProgram.start - secondProgram.start;
       });
+    },
+
+    unairedPrograms() {
+      return this.allPrograms.filter((program) => this.checkProgramNotAired(program));
+    },
+
+    programsToDisplay() {
+      return this.displayingAllPrograms ? this.allPrograms : this.unairedPrograms;
     },
   },
 
   methods: {
     setChannel(channelName) {
       this.channelName = channelName;
+      this.displayingAllPrograms = false;
       this.fetchPrograms();
     },
 
@@ -46,6 +56,10 @@ const theApp = createApp({
       if (hours < 10) hours = '0' + hours;
       if (minutes < 10) minutes = '0' + minutes;
       return `${hours}:${minutes}`;
+    },
+
+    checkProgramNotAired(program) {
+      return program.start > new Date('2021-02-10T19:00:00+01:00');
     },
   },
 

@@ -12,7 +12,7 @@ Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig viss
 
 ### Implementeringen och värdering
 
-ChatGPT föreslog att jag använder map() för arrayen med fetchade datat för att kunna spara dem i en variabel och använda datat utifrån den. Det var för att jag ville ha värdet för tiden då programmet startar som ett faktiskt datum (new Date()) istället för en sträng, då kan man enkelt modifiera varje "start" nyckel på det sättet.
+ChatGPT föreslog att jag använder map() för arrayen med fetchade datat för att kunna spara dem i en variabel och använda datat utifrån den. Det var för att jag ville ha värdet för tiden då programmet startar som ett faktiskt datum (new Date()) istället för en sträng, då kan man enkelt modifiera varje "start" nyckel med map funktionen.
 
 Då undrade jag hur man gör om man vill ha med alla nyckelvärdepar, i koden väljer jag bara ut två av dem (rad 114-117), för att det tredje ändå inte behöver visas upp. Det jag blev osäker på var om det här var bästa sättet att göra det på om man har många fler nyckelvärdepar som man ska använda. Då lärde jag mig om spread operator, som används om man vill "kalla på" en array eller nyckelvärdepar i ett objekt, genom att bara skriva namnet på variabeln som arrayen eller objektet är kopplat till med tre punkter framför. På så sätt har jag just nu med alla nyckelvärdepar i program objekten för bättre skalbarhet, genom att använda "...program" i map funktionen men kan på samma gång lägga till, ta bort eller modifiera specifika nyckelvärdepar (i det här fallet starttiden).
 
@@ -20,7 +20,7 @@ Då undrade jag hur man gör om man vill ha med alla nyckelvärdepar, i koden v�
 
 ### Vad jag använde GitHub Copilot till
 
-Loading GIFen ville inte fungera så jag frågade Copilot hur jag kunde lösa det. Problemet var att jag använde v-if="!programs" men att en tom array i JavaScript ändå är truthy, samt att jag hade glömt att ta bort "hidden" klassen från GIFen. Förslaget var att lägga till en loading boolean property och visa GIFen utifrån det, vilket jag gjorde då jag tyckte det var en bra idé och för att det fungerade som jag ville.
+När jag inte lyckades visa upp laddnings GIFen. Problemet var att jag använde v-if="!programs" men att en tom array i JavaScript ändå är truthy, samt att jag hade glömt att ta bort "hidden" klassen från GIFen. Förslaget var att lägga till en loading boolean property och visa GIFen utifrån det, vilket jag gjorde då jag tyckte det var en bra idé och för att det fungerade som jag ville.
 
 Att formatera starttiden för programmen så att bara timmarna och minuterna visas, vilket inte var svårare än att använda formatTime funktionen som jag gjorde i del 1 fast direkt i HTML den här gången.
 
