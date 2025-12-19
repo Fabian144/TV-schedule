@@ -98,8 +98,7 @@ async function setChannel(channelName) {
   addHiddenPreviousProgramsButton();
 
   const data = await fetchData(`./data/${channelName}.json`);
-  const mappedPrograms = mapPrograms(data);
-  const sortedPrograms = sortProgramsByAscendingDate(mappedPrograms);
+  const sortedPrograms = mapAndSort(data);
   const programsAsHTML = saveProgramsInHTMLForm(sortedPrograms);
 
   addProgramsToHTML(programsAsHTML);
@@ -111,7 +110,6 @@ function clearProgramsContainerElement() {
 
 function addHiddenPreviousProgramsButton() {
   const previousProgramsButton = `<li class="list-group-item show-previous hidden">Visa tidigare program</li>`;
-
   document.querySelector('.list-group').innerHTML = previousProgramsButton;
 }
 
@@ -129,23 +127,22 @@ async function fetchData(url) {
 }
 
 function saveProgramsInHTMLForm(programs) {
-  let programsInHTMLForm = ``;
+  const programsInHTMLForm = programs.map((program) => {
 
-  programs.forEach((program) => {
+    let hiddenClass;
     if (program.start < new Date('2021-02-10T19:00:00+01:00')) { // Simulerat datum
-      programsInHTMLForm += `<li class="list-group-item hidden">
-					<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
-					<div>${program.name}</div>
-				</li>`;
+      hiddenClass = 'hidden';
     } else {
-      programsInHTMLForm += `<li class="list-group-item">
+      hiddenClass = '';
+    }
+
+    return `<li class="list-group-item ${hiddenClass}">
 				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
 				<div>${program.name}</div>
 			</li>`;
-    }
   });
 
-  return programsInHTMLForm;
+  return programsInHTMLForm.join('');
 }
 
 function addProgramsToHTML(programsAsHTML) {
@@ -178,17 +175,15 @@ function setPageHeading(channelName) {
   document.querySelector('#js-title').innerText = channelName;
 }
 
-function mapPrograms(programs) {
-  return programs.map((program) => ({
-    ...program,
-    start: new Date(program.start),
-  }));
-}
-
-function sortProgramsByAscendingDate(programs) {
-  return programs.sort((firstProgram, secondProgram) => {
-    return firstProgram.start - secondProgram.start;
-  });
+function mapAndSort(programs) {
+  return programs
+    .map((program) => ({
+      ...program,
+      start: new Date(program.start),
+    }))
+    .sort((firstProgram, secondProgram) => {
+      return firstProgram.start - secondProgram.start;
+    });
 }
 
 function formatTime(hours, minutes) {
