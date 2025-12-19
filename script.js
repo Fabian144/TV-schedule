@@ -88,14 +88,16 @@ createProgramsContainerElement();
 setChannel('SVT 1');
 
 function createProgramsContainerElement() {
-  const unorderedListelement = `<ul class="list-group list-group-flush"></ul>`;
+  const unorderedListelement = `<ul class="list-group list-group-flush">
+		<li class="list-group-item show-previous">Visa tidigare program</li>
+	</ul>`;
   document.querySelector('#js-schedule').innerHTML = unorderedListelement;
 }
 
 async function setChannel(channelName) {
   setPageHeading(channelName);
-  clearProgramsContainerElement();
-  addHiddenPreviousProgramsButton();
+  clearPrograms();
+  hidePreviousProgramsButton();
 
   const data = await fetchData(`./data/${channelName}.json`);
   const sortedPrograms = mapAndSort(data);
@@ -104,13 +106,14 @@ async function setChannel(channelName) {
   addProgramsToHTML(programsAsHTML);
 }
 
-function clearProgramsContainerElement() {
-  document.querySelector('.list-group').innerHTML = '';
-}
+function clearPrograms() {
+  const programElements = document.querySelectorAll('.list-group-item');
 
-function addHiddenPreviousProgramsButton() {
-  const previousProgramsButton = `<li class="list-group-item show-previous hidden">Visa tidigare program</li>`;
-  document.querySelector('.list-group').innerHTML = previousProgramsButton;
+  programElements.forEach((program) => {
+    if (!program.classList.contains('show-previous')) {
+      program.remove();
+    }
+  });
 }
 
 async function fetchData(url) {
@@ -128,7 +131,6 @@ async function fetchData(url) {
 
 function saveProgramsInHTMLForm(programs) {
   const programsInHTMLForm = programs.map((program) => {
-
     let hiddenClass;
     if (program.start < new Date('2021-02-10T19:00:00+01:00')) { // Simulerat datum
       hiddenClass = 'hidden';
