@@ -32,20 +32,18 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 offset-sm-2">
-					<!-- I DENNA H1 SKA VALD TV-KANALS NAMN SKRIVAS UT -->
 					<h1 id="js-title">{{ channelName }}</h1>
-					<div id="js-schedule">
-						<!-- DENNA VISAS BARA NÄR INGEN DATA LADDATS-->
-						<img v-if="loading" src="loading.gif" id="js-loading" class="loading-spinner" alt="Page loader" />
-						<!-- EXEMPEL-HTML, SOM SKA LÄGGAS IN MED JAVASCRIPT UTIFRÅN JSON-DATA -->
-						<ul v-else class="list-group list-group-flush">
-							<li v-if="anyAiredProgram && !displayingAllPrograms" @click="displayingAllPrograms = true" class="list-group-item show-previous">Visa tidigare program</li>
+					<div v-if="!loading" id="js-schedule">
+						<ul class="list-group list-group-flush">
+							<li v-if="anyAiredProgram && !displayingAllPrograms" @click="displayingAllPrograms = true"
+								class="list-group-item show-previous">Visa tidigare program</li>
 							<li v-for="program in programsToDisplay" class="list-group-item">
 								<strong>{{ formatTime(program.start.getHours(), program.start.getMinutes()) }}</strong>
 								<div>{{ program.name }}</div>
 							</li>
 						</ul>
 					</div>
+					<img v-else src="loading.gif" id="js-loading" class="loading-spinner" alt="Page loader" />
 				</div>
 			</div>
 		</div>
