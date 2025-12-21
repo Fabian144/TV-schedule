@@ -30,7 +30,7 @@ Vue koden fungerade inte första gången sidan laddades så jag kollade med Copi
 
 ### Kritisk värdering av ett AI förslag
 
-När jag frågade Copilot hur jag skulle kunna lösa uppvisningen av tidigare program på ett enklare sätt (alltså om jag borde refaktorisera) föreslog AIn en väldigt kompakt kod. Förslaget var att sortera, mapa och filtrera arrayen med program i en enda computed property, samt att inte ha funktionerna som filtrerar arrayen (checkProgramNotAired och checkProgramAired) som separata funktioner utan att köra dem som arrow functions. Jag valde att ha funktionerna separat ändå för bättre läsbarhet och återanvändbarhet. Jag valde samtidigt att filtrera arrayen i en separat computed property för att det blir tydligare och enklare att ha en egen "allPrograms()" property, som bara returnerar en mapad och sorterad array med alla program i.
+När jag frågade Copilot hur jag skulle kunna lösa uppvisningen av tidigare program på ett enklare sätt (alltså hur jag skulle refaktorisera) föreslog AIn en väldigt kompakt kod. Förslaget var att sortera, mapa och filtrera arrayen med program i en enda computed property, samt att inte ha funktionerna som filtrerar arrayen (checkProgramNotAired och checkProgramAired) som separata funktioner utan att köra dem som arrow functions. Jag valde att ha funktionerna separat ändå för bättre läsbarhet och återanvändbarhet. Jag valde samtidigt att filtrera arrayen i en separat computed property för att det blir tydligare och enklare att ha en egen "allPrograms()" property, som bara returnerar en mapad och sorterad array med alla program i.
 
 ### Åtgärdad tillgänglighetsbrist upptäckt med Lighthouse
 
