@@ -11,7 +11,7 @@ const theApp = createApp({
   },
 
   computed: {
-    allPrograms() {
+    sortedPrograms() {
       return this.programs
         .map((program) => ({
           ...program,
@@ -24,19 +24,19 @@ const theApp = createApp({
 
     programsToDisplay() {
       return this.displayingAllPrograms
-        ? this.allPrograms
-        : this.allPrograms.filter((program) => this.checkProgramNotAired(program.start));
+        ? this.sortedPrograms
+        : this.sortedPrograms.filter((program) => this.checkProgramNotAired(program.start));
     },
 
     anyAiredProgram() {
-      return this.allPrograms.some((program) => this.checkProgramAired(program.start));
+      return this.sortedPrograms.some((program) => this.checkProgramAired(program.start));
     },
   },
 
   methods: {
     setChannel(channelName) {
       this.channelName = channelName;
-      this.displayingAllPrograms = false;
+      this.displayingAiredPrograms = false;
       this.fetchPrograms();
     },
 
