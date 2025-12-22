@@ -1,72 +1,91 @@
 body {
-    background-color:bisque;
-    font-family: 'Roboto Condensed', sans-serif;
-    margin-top: 20px;
+  background-color: bisque;
+  font-family: 'Roboto Condensed', sans-serif;
+  margin-top: 20px;
 }
 
 h1 {
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .loading-spinner {
-    width: 100%;
+  width: 100%;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .show-previous {
-    text-align: center;
+  text-align: center;
 }
 
 .show-previous:hover {
-    cursor: pointer;
-    background-color: #666;
-    color: white;
+  cursor: pointer;
+  background-color: #666;
+  color: white;
 }
 
 .menu-icon {
-    z-index: 2;
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    padding: 10px;
-    font-size: 30px;
-    width: 50px;
-    height: 50px;
-    text-align: center;
+  z-index: 2;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  padding: 10px;
+  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  text-align: center;
 }
 
 .menu-icon:hover {
-    background-color:azure;
-    color: black;
-    border-radius: 10px;
+  background-color: azure;
+  color: black;
+  border-radius: 10px;
 }
 
 ul.menu {
-    padding: 80px 0px;
-    background-color: #333;
-    color: white;
-    position: absolute;
-    top: 0;
-    left: -300px;
-    width: 300px;
-    height: 100vh;
-    z-index: 1; 
+  padding: 80px 0px;
+  background-color: #333;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: -300px;
+  width: 300px;
+  height: 100vh;
+  z-index: 1;
+	animation: forwards hideMenu 500ms;
 }
 
 ul.menu.menu--show {
-    left: 0;
+	animation: forwards showMenu 500ms;
 }
 
 ul.menu > li {
-    padding: 20px;
-    list-style: none;;
+  padding: 20px;
+  list-style: none;
 }
 ul.menu > li:hover {
-    background-color: #666;
-    cursor: pointer;
+  background-color: #666;
+  cursor: pointer;
+}
+
+@keyframes showMenu {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes hideMenu {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
 }

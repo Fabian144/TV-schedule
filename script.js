@@ -7,6 +7,7 @@ const theApp = createApp({
       programs: [],
       loading: false,
       displayingAllPrograms: false,
+			showingMenu: false
     };
   },
 
