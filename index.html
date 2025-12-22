@@ -38,7 +38,7 @@
 								Visa tidigare program
 							</li>
 							<li v-for="program in programsToDisplay" class="list-group-item">
-								<strong>{{ program.start }}</strong>
+								<strong>{{ formatTime(program.start.getHours(), program.start.getMinutes()) }}</strong>
 								<div>{{ program.name }}</div>
 							</li>
 						</ul>
