@@ -1,12 +1,12 @@
 # Hur och var jag använde AI i uppgiften
 
-Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig vissa saker innan vi fick uppgiften, om hur man fetchar data på olika sätt och skillnaderna, hanteringen av fetchad data och hantering av arrayer. Det jag lärde mig har jag sedan använt till vissa delar av koden.
+Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig om hur man fetchar data på olika sätt och skillnaderna, hanteringen av fetchad data och hantering av arrayer och objekt.
 
-**Delarna av koden som jag lärde mig skriva med hjälp av AI:**
+**Delarna av koden som jag använde AI till:**
 
 - Fetch genom try, catch och await i en async funktion
 - Att man kan använda det fetchade datat (t.ex. i en ny funktion) med .then efter att ha kallat på async funktionen
-- Mappa arrayer för att modifiera, lägga till eller ta bort nycklar eller värden
+- Mappa arrayer med objekt för att modifiera, lägga till eller ta bort nycklar eller värden
 
 **Implementeringen och värdering:**
 
