@@ -6,7 +6,7 @@ const theApp = createApp({
       channelName: '',
       programs: [],
       loading: false,
-      displayingAllPrograms: false,
+      displayingAiredPrograms: false,
 			showingMenu: false
     };
   },
@@ -24,7 +24,7 @@ const theApp = createApp({
     },
 
     programsToDisplay() {
-      return this.displayingAllPrograms
+      return this.displayingAiredPrograms
         ? this.sortedPrograms
         : this.sortedPrograms.filter((program) => this.checkProgramNotAired(program.start));
     },

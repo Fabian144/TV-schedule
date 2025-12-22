@@ -32,7 +32,7 @@
 					<h1 id="js-title">{{ channelName }}</h1>
 					<div v-if="!loading" id="js-schedule">
 						<ul class="list-group list-group-flush">
-							<li v-if="anyAiredProgram && !displayingAiredPrograms" @click="displayingAllPrograms = true"
+							<li v-if="anyAiredProgram && !displayingAiredPrograms" @click="displayingAiredPrograms = true"
 								class="list-group-item show-previous">Visa tidigare program</li>
 							<li v-for="program in programsToDisplay" class="list-group-item">
 								<strong>{{ formatTime(program.start.getHours(), program.start.getMinutes()) }}</strong>
