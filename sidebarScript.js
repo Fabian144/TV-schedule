@@ -35,34 +35,44 @@ if (window.MENU_ANIMATION_MODE === ANIMATION.NONE) {
   );
 
   function toggleMenu() {
-    let menuPositionLeft = parseFloat(
-      window.getComputedStyle(document.querySelector('ul.menu')).left
-    );
     const menu = document.querySelector('ul.menu');
+    let menuPositionLeft = parseFloat(window.getComputedStyle(menu).left);
 
     if (menuPositionLeft < 0) {
-      document.querySelector('.menu-icon > .fas').classList.add('fa-times');
-
-      const menuIntervalAnimationIn = setInterval(() => {
-        if (menuPositionLeft < 0) {
-          menuPositionLeft += 20;
-          menu.style.left = menuPositionLeft + 'px';
-        } else {
-          clearInterval(menuIntervalAnimationIn);
-        }
-      }, 0);
+      showMenu(menuPositionLeft);
     } else {
-      document.querySelector('.menu-icon > .fas').classList.remove('fa-times');
-
-      const menuIntervalAnimationOut = setInterval(() => {
-        if (menuPositionLeft > originalMenuPosition) {
-          menuPositionLeft -= 20;
-          menu.style.left = menuPositionLeft + 'px';
-        } else {
-          clearInterval(menuIntervalAnimationOut);
-        }
-      });
+      hideMenu(menuPositionLeft);
     }
+  }
+
+  function showMenu(menuPositionLeft) {
+    const menuIcon = document.querySelector('.menu-icon > .fas');
+    menuIcon.classList.add('fa-times');
+    const menu = document.querySelector('ul.menu');
+
+    const intervalAnimationShow = setInterval(() => {
+      if (menuPositionLeft < 0) {
+        menuPositionLeft += 20;
+        menu.style.left = menuPositionLeft + 'px';
+      } else {
+        clearInterval(intervalAnimationShow);
+      }
+    }, 0);
+  }
+
+  function hideMenu(menuPositionLeft) {
+    const menuIcon = document.querySelector('.menu-icon > .fas');
+    menuIcon.classList.remove('fa-times');
+    const menu = document.querySelector('ul.menu');
+
+    const intervalAnimationHide = setInterval(() => {
+      if (menuPositionLeft > originalMenuPosition) {
+        menuPositionLeft -= 20;
+        menu.style.left = menuPositionLeft + 'px';
+      } else {
+        clearInterval(intervalAnimationHide);
+      }
+    });
   }
 } else if (window.MENU_ANIMATION_MODE === ANIMATION.ALTERNATIVE) {
   console.log('Meny-animation med alternativ metod används');
