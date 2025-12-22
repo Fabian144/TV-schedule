@@ -98,10 +98,10 @@ createProgramsContainerElement();
 setChannel('SVT 1');
 
 function createProgramsContainerElement() {
-  const unorderedListelement = `<ul class="list-group list-group-flush">
+  const unorderedListElement = `<ul class="list-group list-group-flush">
 		<li class="list-group-item show-previous">Visa tidigare program</li>
 	</ul>`;
-  document.querySelector('#js-schedule').innerHTML = unorderedListelement;
+  document.querySelector('#js-schedule').innerHTML = unorderedListElement;
 }
 
 async function setChannel(channelName) {
