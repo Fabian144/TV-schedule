@@ -1,4 +1,4 @@
-# Hur och var jag använde AI i uppgiften
+# Användning av AI i uppgiften
 
 Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig om hur man fetchar data på olika sätt och skillnaderna, hanteringen av fetchad data och hantering av arrayer och objekt.
 
