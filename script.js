@@ -116,6 +116,10 @@ async function setChannel(channelName) {
   checkShowPreviousButton();
 }
 
+function setPageHeading(channelName) {
+  document.querySelector('#js-title').innerText = channelName;
+}
+
 function clearPrograms() {
   const programElements = document.querySelectorAll('.list-group-item');
 
@@ -139,6 +143,22 @@ async function fetchData(url) {
   }
 }
 
+function showLoadingGif() {
+  document.querySelector('#js-loading').classList.remove('hidden');
+}
+
+function mapAndSort(programs) {
+  return programs
+    .map((program) => ({
+      ...program,
+      start: new Date(program.start),
+      hidden: new Date(program.start) < new Date('2021-02-10T19:00:00+01:00'), // Simulerat datum
+    }))
+    .sort((firstProgram, secondProgram) => {
+      return firstProgram.start - secondProgram.start;
+    });
+}
+
 function addProgramsToHTML(programs) {
   const programsContainerElement = document.querySelector('.list-group');
 
@@ -160,8 +180,18 @@ function addProgramsToHTML(programs) {
   });
 }
 
+function formatTime(hours, minutes) {
+  if (hours < 10) hours = '0' + hours;
+  if (minutes < 10) minutes = '0' + minutes;
+  return `${hours}:${minutes}`;
+}
+
+function hideLoadingGif() {
+  document.querySelector('#js-loading').classList.add('hidden');
+}
+
 function checkShowPreviousButton() {
-	const firstProgram = document.querySelectorAll('.list-group-item')[1]
+  const firstProgram = document.querySelectorAll('.list-group-item')[1];
 
   if (firstProgram.classList.contains('hidden')) {
     showPreviousProgramsButton();
@@ -180,28 +210,6 @@ function showPreviousPrograms() {
   hidePreviousProgramsButton();
 }
 
-function setPageHeading(channelName) {
-  document.querySelector('#js-title').innerText = channelName;
-}
-
-function mapAndSort(programs) {
-  return programs
-    .map((program) => ({
-      ...program,
-      start: new Date(program.start),
-      hidden: new Date(program.start) < new Date('2021-02-10T19:00:00+01:00'), // Simulerat datum
-    }))
-    .sort((firstProgram, secondProgram) => {
-      return firstProgram.start - secondProgram.start;
-    });
-}
-
-function formatTime(hours, minutes) {
-  if (hours < 10) hours = '0' + hours;
-  if (minutes < 10) minutes = '0' + minutes;
-  return `${hours}:${minutes}`;
-}
-
 function showPreviousProgramsButton() {
   const previousProgramsButton = document.querySelector('.show-previous');
 
@@ -211,12 +219,4 @@ function showPreviousProgramsButton() {
 
 function hidePreviousProgramsButton() {
   document.querySelector('.show-previous').classList.add('hidden');
-}
-
-function showLoadingGif() {
-  document.querySelector('#js-loading').classList.remove('hidden');
-}
-
-function hideLoadingGif() {
-  document.querySelector('#js-loading').classList.add('hidden');
 }
