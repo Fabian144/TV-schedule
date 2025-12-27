@@ -111,9 +111,10 @@ async function setChannel(channelName) {
 
   const data = await fetchData(`./data/${channelName}.json`);
   const sortedPrograms = mapAndSort(data);
-  const programsAsHTML = saveProgramsInHTMLForm(sortedPrograms);
 
-  addProgramsToHTML(programsAsHTML);
+  addProgramsToHTML(sortedPrograms);
+  hideLoadingGif();
+  checkShowPreviousProgramsButton();
 }
 
 function clearPrograms() {
@@ -139,23 +140,25 @@ async function fetchData(url) {
   }
 }
 
-function saveProgramsInHTMLForm(programs) {
-  const programsInHTMLForm = programs.map((program) => {
-    return `<li class="list-group-item ${program.hidden ? 'hidden' : ''}">
-				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
-				<div>${program.name}</div>
-			</li>`;
-  });
-
-  return programsInHTMLForm.join('');
-}
-
-function addProgramsToHTML(programsAsHTML) {
+function addProgramsToHTML(programs) {
   const programsContainerElement = document.querySelector('.list-group');
 
-  programsContainerElement.innerHTML += programsAsHTML;
-  hideLoadingGif();
-  checkShowPreviousProgramsButton();
+  programs.forEach((program) => {
+    const li = document.createElement('li');
+    li.className = `list-group-item ${program.hidden ? 'hidden' : ''}`;
+
+    const programStartElement = document.createElement('strong');
+    programStartElement.innerText = formatTime(
+      program.start.getHours(),
+      program.start.getMinutes()
+    );
+
+    const programNameElement = document.createElement('div');
+    programNameElement.innerText = program.name;
+
+    li.append(programStartElement, programNameElement);
+    programsContainerElement.append(li);
+  });
 }
 
 function checkShowPreviousProgramsButton() {
