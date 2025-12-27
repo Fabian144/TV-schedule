@@ -107,14 +107,13 @@ function createProgramsContainerElement() {
 async function setChannel(channelName) {
   setPageHeading(channelName);
   clearPrograms();
-  hidePreviousProgramsButton();
 
   const data = await fetchData(`./data/${channelName}.json`);
   const sortedPrograms = mapAndSort(data);
 
   addProgramsToHTML(sortedPrograms);
   hideLoadingGif();
-  checkShowPreviousProgramsButton();
+  checkShowPreviousButton();
 }
 
 function clearPrograms() {
@@ -161,11 +160,13 @@ function addProgramsToHTML(programs) {
   });
 }
 
-function checkShowPreviousProgramsButton() {
-  const firstProgram = document.querySelectorAll('.list-group-item')[1];
+function checkShowPreviousButton() {
+	const firstProgram = document.querySelectorAll('.list-group-item')[1]
 
   if (firstProgram.classList.contains('hidden')) {
     showPreviousProgramsButton();
+  } else {
+    hidePreviousProgramsButton();
   }
 }
 

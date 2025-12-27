@@ -5,7 +5,6 @@ Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig om h
 **Delarna av koden som jag använde AI till:**
 
 - Fetch genom try, catch och await i en async funktion
-- Att man kan använda det fetchade datat (t.ex. i en ny funktion) med .then efter att ha kallat på async funktionen
 - Mappa arrayer med objekt för att modifiera, lägga till eller ta bort nycklar eller värden
 - Kolla om koden är säker mot XSS attacker och använde createElement med innerText för säkerhetsskull, istället för innerHTML
 
