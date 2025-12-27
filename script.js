@@ -141,15 +141,7 @@ async function fetchData(url) {
 
 function saveProgramsInHTMLForm(programs) {
   const programsInHTMLForm = programs.map((program) => {
-    let hiddenClass;
-    if (program.start < new Date('2021-02-10T19:00:00+01:00')) {
-      // Simulerat datum
-      hiddenClass = 'hidden';
-    } else {
-      hiddenClass = '';
-    }
-
-    return `<li class="list-group-item ${hiddenClass}">
+    return `<li class="list-group-item ${program.hidden ? 'hidden' : ''}">
 				<strong>${formatTime(program.start.getHours(), program.start.getMinutes())}</strong>
 				<div>${program.name}</div>
 			</li>`;
@@ -193,6 +185,7 @@ function mapAndSort(programs) {
     .map((program) => ({
       ...program,
       start: new Date(program.start),
+      hidden: new Date(program.start) < new Date('2021-02-10T19:00:00+01:00'), // Simulerat datum
     }))
     .sort((firstProgram, secondProgram) => {
       return firstProgram.start - secondProgram.start;
