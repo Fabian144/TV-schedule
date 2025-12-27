@@ -1,6 +1,6 @@
 # Användning av AI i uppgiften
 
-Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig om hur man fetchar data på olika sätt och skillnaderna, hanteringen av fetchad data och hantering av arrayer och objekt.
+Jag använde ChatGPT och lite av DuckDuckGos inbyggda AI för att lära mig om hur man fetchar data på olika sätt och skillnaderna, hanteringen av fetchad data, hantering av arrayer, objekt och hur man bättre undviker XSS attacker.
 
 **Delarna av koden som jag använde AI till:**
 
