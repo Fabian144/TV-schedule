@@ -24,7 +24,7 @@ När jag inte lyckades visa upp laddnings GIFen. Problemet var att jag använde 
 
 Att formatera starttiden för programmen så att bara timmarna och minuterna visas, vilket inte var svårare än att använda formatTime funktionen som jag gjorde i del 1 fast direkt i HTML den här gången.
 
-Att lära mig hur jag både kan mapa och sortera arrayen med alla program i en och samma computed property och om hur jag skulle kunna sköta uppvisningen av tidigare program på ett enklare sätt. Jag hade också glömt att se till så att knappen för att visa tidigare program bara visas när det finns program som redan visats.
+Att lära mig hur jag både kan mapa och sortera arrayen med alla program i en och samma computed property och om hur jag skulle kunna sköta uppvisningen av tidigare program på ett enklare sätt.
 
 Vue koden fungerade inte första gången sidan laddades så jag kollade med Copilot vad problemet var, jag hade en extra Vue CDN länk i HTML filen även fast jag redan importerar den i script.js.
 
