@@ -94,14 +94,19 @@ if (window.MENU_ANIMATION_MODE === ANIMATION.NONE) {
 }
 //--------------------------
 
-createProgramsContainerElement();
+createContainerElement();
 setChannel('SVT 1');
 
-function createProgramsContainerElement() {
-  const unorderedListElement = `<ul class="list-group list-group-flush">
-		<li class="list-group-item show-previous">Visa tidigare program</li>
-	</ul>`;
-  document.querySelector('#js-schedule').innerHTML = unorderedListElement;
+function createContainerElement() {
+  const unorderedListElement = document.createElement('ul');
+  unorderedListElement.className = 'list-group list-group-flush';
+
+  const airedProgramsButton = document.createElement('li');
+  airedProgramsButton.className = 'list-group-item show-previous';
+  airedProgramsButton.innerText = 'Visa tidigare program'
+	
+	unorderedListElement.append(airedProgramsButton)
+	document.querySelector('#js-schedule').append(unorderedListElement)
 }
 
 async function setChannel(channelName) {
@@ -113,7 +118,7 @@ async function setChannel(channelName) {
 
   addProgramsToHTML(sortedPrograms);
   hideLoadingGif();
-  checkShowPreviousButton();
+  checkShowAiredButton();
 }
 
 function setPageHeading(channelName) {
@@ -190,33 +195,33 @@ function hideLoadingGif() {
   document.querySelector('#js-loading').classList.add('hidden');
 }
 
-function checkShowPreviousButton() {
+function checkShowAiredButton() {
   const firstProgram = document.querySelectorAll('.list-group-item')[1];
 
   if (firstProgram.classList.contains('hidden')) {
-    showPreviousProgramsButton();
+    showAiredProgramsButton();
   } else {
-    hidePreviousProgramsButton();
+    hideAiredProgramsButton();
   }
 }
 
-function showPreviousPrograms() {
+function showAiredPrograms() {
   const allProgramElements = document.querySelectorAll('.list-group-item');
 
   allProgramElements.forEach((programElement) => {
     programElement.classList.remove('hidden');
   });
 
-  hidePreviousProgramsButton();
+  hideAiredProgramsButton();
 }
 
-function showPreviousProgramsButton() {
-  const previousProgramsButton = document.querySelector('.show-previous');
+function showAiredProgramsButton() {
+  const airedProgramsButton = document.querySelector('.show-previous');
 
-  previousProgramsButton.classList.remove('hidden');
-  previousProgramsButton.addEventListener('click', showPreviousPrograms);
+  airedProgramsButton.classList.remove('hidden');
+  airedProgramsButton.addEventListener('click', showAiredPrograms);
 }
 
-function hidePreviousProgramsButton() {
+function hideAiredProgramsButton() {
   document.querySelector('.show-previous').classList.add('hidden');
 }
